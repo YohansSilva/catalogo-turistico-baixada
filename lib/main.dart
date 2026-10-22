@@ -35,11 +35,15 @@ class MeuAppTurismo extends StatelessWidget {
     );
   }
 }
-
-class TelaPrincipal extends StatelessWidget {
+class TelaPrincipal extends StatefulWidget {
   const TelaPrincipal({super.key});
 
-  final pontosPorEnquanto[
+  @override
+  State<TelaPrincipal> createState() => _TelaPrincipalState();
+}
+
+class _TelaPrincipalState extends State<TelaPrincipal> {
+  final List<PontoTuristico> _pontosTuristicos = [
     PontoTuristico(
       nome: 'Jardim da Orla de Santos',
       cidade: 'Santos',
@@ -83,7 +87,6 @@ class TelaPrincipal extends StatelessWidget {
       descricao: 'Sitio arqueologico com as ruinas de uma das primeiras igrejas do Brasil.',
     ),
   ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,34 +95,39 @@ class TelaPrincipal extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 27, 61, 58),
         foregroundColor: Colors.white,
       ),
-      body: ListView.builder(
-        itemCount: _pontosTuristicos.length,
-        itemBuilder: (context, index) {
-          final ponto = _pontosTuristicos[index];
-          return Card(
-            margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    ponto.imagemUrl, 
-                    height: 200, 
-                    width: double.infinity, 
-                    fit: BoxFit.cover,
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 700),
+          child: ListView.builder(
+            itemCount: _pontosTuristicos.length,
+            itemBuilder: (context, index) {
+              final ponto = _pontosTuristicos[index];
+              return Card(
+                margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        ponto.imagemUrl, 
+                        height: 200, 
+                        width: double.infinity, 
+                        fit: BoxFit.cover,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(ponto.nome, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 4),
+                      Text('Cidade: ${ponto.cidade}', style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.w600)),
+                      const SizedBox(height: 8),
+                      Text(ponto.descricao),
+                    ],
                   ),
-                  const SizedBox(height: 10),
-                  Text(ponto.nome, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 4),
-                  Text('Cidade: ${ponto.cidade}', style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 8),
-                  Text(ponto.descricao),
-                ],
-              ),
-            ),
-          );
-        },
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }
