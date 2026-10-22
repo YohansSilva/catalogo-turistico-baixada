@@ -10,12 +10,14 @@ class PontoTuristico {
   final String cidade;
   final String imagemUrl;
   final String descricao;
+  bool favorito;
 
   PontoTuristico({
     required this.nome,
     required this.cidade,
     required this.imagemUrl,
     required this.descricao,
+    this.favorito = false,
   });
 }
 
@@ -35,6 +37,7 @@ class MeuAppTurismo extends StatelessWidget {
     );
   }
 }
+
 class TelaPrincipal extends StatefulWidget {
   const TelaPrincipal({super.key});
 
@@ -87,6 +90,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
       descricao: 'Sitio arqueologico com as ruinas de uma das primeiras igrejas do Brasil.',
     ),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,6 +125,25 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                       Text('Cidade: ${ponto.cidade}', style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.w600)),
                       const SizedBox(height: 8),
                       Text(ponto.descricao),
+                      const Divider(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Row(
+                            children: [
+                              Checkbox(
+                                value: ponto.favorito,
+                                onChanged: (bool? valor) {
+                                  setState(() {
+                                    ponto.favorito = valor ?? false;
+                                  });
+                                },
+                              ),
+                              const Text('Favorito'),
+                            ],
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
